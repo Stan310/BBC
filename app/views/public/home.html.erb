@@ -1,0 +1,40 @@
+<div class="casino-home" style="background: url(<%= asset_path('casino-bg.jpg') %>) center/cover no-repeat;; min-height: 100vh; color: #fff; text-align: center; padding-top: 100px; font-family: 'Helvetica Neue', sans-serif;">
+  <div style="background-color: rgba(0, 0, 0, 0.7); padding: 40px; border-radius: 16px; display: inline-block;">
+    <h1 style="font-size: 60px; font-weight: bold; color: gold; text-shadow: 2px 2px 5px black;">
+      🎰 Fancy Kasyno Online 🎲
+    </h1>
+    <p style="font-size: 20px; margin: 20px 0; color: #ddd;">
+      Zagraj i poczuj dreszcz emocji! Wybierz jedną z naszych gier.
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
+      <%= link_to 'Ruletka', roulette_path, class: 'game-button' %>
+      <%= link_to 'Blackjack', blackjack_path, class: 'game-button' %>
+      <%= link_to 'Sloty', slots_path, class: 'game-button' %>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <%= link_to 'Przejdź do konta', account_path, style: 'color: gold; font-weight: bold; text-decoration: underline; font-size: 18px;' %>
+    </div>
+  </div>
+</div>
+
+<style>
+    .game-button {
+        background: linear-gradient(to right, #c59d5f, #d4af37);
+        border: none;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #000;
+        border-radius: 12px;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .game-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
+    }
+</style>

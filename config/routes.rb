@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
+  get "users/account"
+  get "games/roulette"
+  get "games/blackjack"
+  get "games/slots"
+  get "public/home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
+  root 'public#home'
+  get 'roulette', to: 'games#roulette'
+  get 'blackjack', to: 'games#blackjack'
+  get 'slots', to: 'games#slots'
+  get 'account', to: 'users#account'
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
