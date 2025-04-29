@@ -1,0 +1,17 @@
+<h2 style="color: white;">Rejestracja gracza 🧍‍♂️</h2>
+
+<%= form_with url: "#", method: "post", local: true do %>
+  <div>
+    <label style="color:white;">Nick:</label>
+    <%= text_field_tag :nick, "", required: true %>
+  </div>
+
+  <div>
+    <label style="color:white;">E-mail:</label>
+    <%= email_field_tag :email, "", required: true %>
+  </div>
+
+  <div>
+    <%= submit_tag "Zarejestruj się", style: "margin-top: 10px;" %>
+  </div>
+<% end %>

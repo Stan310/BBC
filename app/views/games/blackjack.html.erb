@@ -1,0 +1,43 @@
+<h2 style="color: white;">Zagraj w Blackjacka 🂡🂱</h2>
+<p style="color: #ccc;">Celem gry jest zdobycie 21 punktów lub jak najbliżej tej liczby bez jej przekroczenia. Pokonaj krupiera!</p>
+
+<button id="blackjack-button" style="padding: 10px 20px; background-color: #28a745; border: none; color: white; border-radius: 5px; margin-bottom: 10px;">
+  Rozpocznij grę
+</button>
+
+<div id="blackjack-output" style="color: #ffc107; font-size: 1.2em; margin-top: 15px;"></div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const button = document.getElementById("blackjack-button");
+    const output = document.getElementById("blackjack-output");
+
+    button.addEventListener("click", () => {
+      output.innerHTML = "<em>Tasuję karty...</em>";
+      output.style.color = "#17a2b8";
+
+      setTimeout(() => {
+        const player = Math.floor(Math.random() * 6) + 16;  // 16–21
+        const dealer = Math.floor(Math.random() * 6) + 16;
+
+        let outcome = "";
+        if (player > 21) {
+          outcome = "Przegrałeś! 🟥";
+        } else if (dealer > 21 || player > dealer) {
+          outcome = "Wygrałeś! 🟩";
+        } else if (player === dealer) {
+          outcome = "Remis. 🤝";
+        } else {
+          outcome = "Przegrałeś! 🟥";
+        }
+
+        output.style.color = "#ffc107";
+        output.innerHTML = `
+          <strong>Twoje punkty:</strong> ${player}<br>
+          <strong>Punkty krupiera:</strong> ${dealer}<br><br>
+          <strong>Wynik:</strong> ${outcome}
+        `;
+      }, 1000);
+    });
+  });
+</script>

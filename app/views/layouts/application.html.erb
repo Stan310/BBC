@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kasyno Online</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+
+  <body>
+    <header>
+      <h1>🎰 Kasyno Online 🎰</h1>
+      <nav>
+	<%= link_to "🏠 Strona główna", root_path %> |
+	<%= link_to "🧍 Rejestracja", gracze_nowy_path %> |
+	<%= link_to "💸 Zakład", zaklad_nowy_path %> |
+        <%= link_to "Blackjack ♠️", blackjack_path %> |
+        <%= link_to "Ruletka 🎲", roulette_path %> |
+        <%= link_to "Jednoręki bandyta 🎰", slots_path %>
+      </nav>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Kasyno Online</p>
+    </footer>
+  </body>
+</html>

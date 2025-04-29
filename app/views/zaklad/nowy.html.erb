@@ -1,0 +1,17 @@
+<h2 style="color: white;">Nowy zakład 💸</h2>
+
+<%= form_with url: "#", method: "post", local: true do %>
+  <div>
+    <label style="color:white;">Wybierz grę:</label>
+    <%= select_tag :gra, options_for_select(["Blackjack", "Ruletka", "Jednoręki Bandyta"]) %>
+  </div>
+
+  <div>
+    <label style="color:white;">Kwota zakładu (PLN):</label>
+    <%= number_field_tag :kwota, 10, min: 1 %>
+  </div>
+
+  <div>
+    <%= submit_tag "Obstaw", style: "margin-top: 10px;" %>
+  </div>
+<% end %>

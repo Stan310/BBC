@@ -1,0 +1,43 @@
+body {
+  background-color: #1c1c1c;
+  color: #f2f2f2;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+header {
+  background-color: #111;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+}
+
+header h1 {
+  color: gold;
+  margin-bottom: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: gold;
+}
+
+main {
+  padding: 40px;
+}
+
+footer {
+  background-color: #111;
+  color: #aaa;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

@@ -1,0 +1,2 @@
+module GraczeHelper
+end
