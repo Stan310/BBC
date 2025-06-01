@@ -5,6 +5,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
   <body>
@@ -19,7 +20,22 @@
         <%= link_to "Jednoręki bandyta 🎰", slots_path %>
       </nav>
     </header>
+    <div id="user-panel">
+  <button id="toggle-user-panel">☰ Konto</button>
+  <div id="user-sidebar">
+    <% if current_user %>
+      <p><strong>Witaj, <%= current_user.email %></strong></p>
+      <turbo-frame id="user-balance">
+        <p>💰 Saldo: <%= current_user.wallet&.balance || 0 %> żetonów</p>
+      </turbo-frame>
+      <%= link_to "👤 Moje konto", account_path %><br>
+      <%= button_to "🚪 Wyloguj", destroy_user_session_path, method: :delete, data: { turbo: false } %>
+    <% else %>
+      <%= link_to "🔑 Zaloguj", new_user_session_path %>
+    <% end %>
+  </div>
 
+</div>
     <main>
       <%= yield %>
     </main>
@@ -27,5 +43,15 @@
     <footer>
       <p>&copy; 2025 Kasyno Online</p>
     </footer>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("toggle-user-panel");
+    const panel = document.getElementById("user-sidebar");
+
+    toggle.addEventListener("click", () => {
+      panel.classList.toggle("show");
+    });
+  });
+</script>
   </body>
 </html>

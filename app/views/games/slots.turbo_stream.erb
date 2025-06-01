@@ -1,0 +1,11 @@
+<turbo-stream target="slot-frame" action="update">
+  <template>
+    <%= render partial: "slot_partial", formats: [:html], locals: { symbols: @symbols, result: @result } %>
+  </template>
+</turbo-stream>
+
+<turbo-stream target="user-balance" action="update">
+  <template>
+    <p>💰 Saldo: <%= current_user.wallet&.balance || 0 %> żetonów</p>
+  </template>
+</turbo-stream>

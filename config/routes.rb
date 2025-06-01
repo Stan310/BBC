@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   get "zaklad/nowy"
@@ -8,7 +9,7 @@ Rails.application.routes.draw do
   root 'public#home'
   get 'roulette', to: 'games#roulette'
   get 'blackjack', to: 'games#blackjack'
-  get 'slots', to: 'games#slots'
+  match 'slots', to: 'games#slots', via: [:get, :post]
   get 'account', to: 'users#account'
   get "gracze/nowy", to: "gracze#nowy"
   get "zaklad/nowy", to: "zaklad#nowy"

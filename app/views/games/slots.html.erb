@@ -1,3 +1,64 @@
-<h2 style="color: white;">Jednoręki bandyta 🎰</h2>
-<p style="color: #ccc;">Wylosuj 3 takie same symbole i zgarnij nagrodę! Kliknij i sprawdź swój szczęśliwy traf.</p>
-<button style="padding: 10px 20px; background-color: #ffc107; border: none; color: black; border-radius: 5px;">Zakręć!</button>
+<h1 class="title">Jednoręki Bandyta</h1>
+
+<%= button_to "Zakręć!", slots_path, method: :post, form: { data: { turbo_frame: "slot-frame" } }, class: "spin-button" %>
+
+<turbo-frame id="slot-frame">
+  <div class="slot-container">
+    <% if @symbols %>
+      <div class="slot"><%= @symbols[0] %></div>
+      <div class="slot"><%= @symbols[1] %></div>
+      <div class="slot"><%= @symbols[2] %></div>
+    <% else %>
+      <div class="slot">❓</div>
+      <div class="slot">❓</div>
+      <div class="slot">❓</div>
+    <% end %>
+  </div>
+
+  <% if @result %>
+    <p class="result"><%= @result %></p>
+  <% end %>
+</turbo-frame>
+
+<style>
+  .title {
+    text-align: center;
+    font-size: 2em;
+    margin-top: 1em;
+  }
+  .slot-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+  }
+  .slot {
+    font-size: 3em;
+    margin: 0 15px;
+    border: 3px solid #888;
+    border-radius: 10px;
+    padding: 20px;
+    background: #eee;
+    min-width: 60px;
+    text-align: center;
+  }
+  .spin-button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 30px;
+    font-size: 1.2em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .spin-button:hover {
+    background-color: #45a049;
+  }
+  .result {
+    text-align: center;
+    font-size: 1.4em;
+    color: #333;
+    margin-top: 20px;
+  }
+</style>
