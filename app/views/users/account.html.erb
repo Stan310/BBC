@@ -1,2 +1,13 @@
-<h1>Users#account</h1>
-<p>Find me in app/views/users/account.html.erb</p>
+ 
+<h2>👤 Konto użytkownika</h2>
+
+<p><strong>Email:</strong> <%= current_user.email %></p>
+<p><strong>Nazwa użytkownika:</strong> <%= current_user.username %></p>
+
+<% if current_user.avatar.attached? %>
+  <p><strong>Avatar:</strong><br><%= image_tag current_user.avatar, style: "width:100px;height:100px;border-radius:50%;" %></p>
+<% else %>
+  <p>Brak avatara. Możesz dodać go w <%= link_to "edycji profilu", edit_user_registration_path %>.</p>
+<% end %>
+
+<p><strong>Saldo:</strong> <%= current_user.wallet&.balance || 0 %> żetonów</p>

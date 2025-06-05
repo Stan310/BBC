@@ -20,20 +20,30 @@
         <%= link_to "Jednoręki bandyta 🎰", slots_path %>
       </nav>
     </header>
-    <div id="user-panel">
-  <button id="toggle-user-panel">☰ Konto</button>
-  <div id="user-sidebar">
     <% if current_user %>
-      <p><strong>Witaj, <%= current_user.email %></strong></p>
-      <turbo-frame id="user-balance">
-        <p>💰 Saldo: <%= current_user.wallet&.balance || 0 %> żetonów</p>
-      </turbo-frame>
-      <%= link_to "👤 Moje konto", account_path %><br>
-      <%= button_to "🚪 Wyloguj", destroy_user_session_path, method: :delete, data: { turbo: false } %>
-    <% else %>
-      <%= link_to "🔑 Zaloguj", new_user_session_path %>
-    <% end %>
+  <div class="user-panel">
+    <button id="user-toggle" class="user-button">
+      <%= image_tag(
+        current_user.avatar.attached? ? url_for(current_user.avatar) : asset_path("default_avatar.png"),
+        class: "user-avatar"
+      ) %>
+      <span class="user-name"><%= current_user.username || current_user.email %></span>
+      ⏷
+    </button>
+
+    <div id="user-menu" class="user-menu hidden">
+      <p>💰 Saldo: <%= current_user.wallet&.balance || 0 %> żetonów</p>
+      <%= link_to "👤 Moje konto", account_path, class: "user-link" %>
+      <%= link_to "⚙️ Edytuj profil", edit_user_registration_path, class: "user-link" %>
+      <%= button_to "🚪 Wyloguj", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "user-link" %>
+    </div>
   </div>
+<% else %>
+  <div class="user-panel">
+    <%= link_to "🔑 Zaloguj", new_user_session_path, class: "user-login" %>
+  </div>
+<% end %>
+
 
 </div>
     <main>
@@ -43,14 +53,24 @@
     <footer>
       <p>&copy; 2025 Kasyno Online</p>
     </footer>
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const toggle = document.getElementById("toggle-user-panel");
-    const panel = document.getElementById("user-sidebar");
+<script>
+  document.addEventListener("turbo:load", function () {
+    const toggle = document.getElementById("user-toggle");
+    const menu = document.getElementById("user-menu");
 
-    toggle.addEventListener("click", () => {
-      panel.classList.toggle("show");
-    });
+    if (toggle && menu) {
+      toggle.addEventListener("click", () => {
+        menu.classList.toggle("show");
+        menu.classList.toggle("hidden");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.add("hidden");
+          menu.classList.remove("show");
+        }
+      });
+    }
   });
 </script>
   </body>

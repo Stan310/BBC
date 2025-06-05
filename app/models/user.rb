@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one :wallet
   after_create :initialize_wallet
+  has_one_attached :avatar
 
   private
 
