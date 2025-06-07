@@ -51,7 +51,7 @@ class GamesController < ApplicationController
   puts "🎰 Wylosowano symbole: #{@symbols.inspect}"
   puts "👛 Saldo: #{current_user.wallet.balance}" if current_user&.wallet
   respond_to do |format|
-    format.html
+    format.html { render :slots }
     format.turbo_stream
   end
  end

@@ -32,7 +32,9 @@
     </button>
 
     <div id="user-menu" class="user-menu hidden">
-      <p>💰 Saldo: <%= current_user.wallet&.balance || 0 %> żetonów</p>
+      <turbo-frame id="user-balance">
+        <p>💰 Saldo: <%= current_user.wallet&.balance || 0 %> żetonów</p>
+      </turbo-frame>
       <%= link_to "👤 Moje konto", account_path, class: "user-link" %>
       <%= link_to "⚙️ Edytuj profil", edit_user_registration_path, class: "user-link" %>
       <%= button_to "🚪 Wyloguj", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "user-link" %>
@@ -54,6 +56,7 @@
       <p>&copy; 2025 Kasyno Online</p>
     </footer>
 <script>
+  console.log("🚀 JS załadowany");
   document.addEventListener("turbo:load", function () {
     const toggle = document.getElementById("user-toggle");
     const menu = document.getElementById("user-menu");

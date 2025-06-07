@@ -1,11 +1,13 @@
-<turbo-stream target="slot-frame" action="update">
-  <template>
-    <%= render partial: "slot_partial", formats: [:html], locals: { symbols: @symbols, result: @result } %>
-  </template>
-</turbo-stream>
+<%= turbo_stream.update "slot-frame" do %>
+  <div class="slot-container">
+    <div class="slot"><%= @symbols[0] %></div>
+    <div class="slot"><%= @symbols[1] %></div>
+    <div class="slot"><%= @symbols[2] %></div>
+    
+  </div>
+<p class="result"><%= @result %></p>
+<% end %>
 
-<turbo-stream target="user-balance" action="update">
-  <template>
-    <p>💰 Saldo: <%= current_user.wallet&.balance || 0 %> żetonów</p>
-  </template>
-</turbo-stream>
+<%= turbo_stream.update "user-balance" do %>
+  <p>💰 Saldo: <%= current_user.wallet&.balance || 0 %> żetonów</p>
+<% end %>

@@ -2,8 +2,8 @@
   <div class="slot"><%= symbols[0] %></div>
   <div class="slot"><%= symbols[1] %></div>
   <div class="slot"><%= symbols[2] %></div>
-</div>
 
-<% if result %>
-  <p class="result"><%= result %></p>
-<% end %>
+  <% if result.present? %>
+    <p class="result"><%= result %></p>
+  <% end %>
+</div>
