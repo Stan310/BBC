@@ -1,43 +1,54 @@
-<h2 style="color: white;">Zagraj w Blackjacka 🂡🂱</h2>
-<p style="color: #ccc;">Celem gry jest zdobycie 21 punktów lub jak najbliżej tej liczby bez jej przekroczenia. Pokonaj krupiera!</p>
+<h1>🃏 Blackjack</h1>
 
-<button id="blackjack-button" style="padding: 10px 20px; background-color: #28a745; border: none; color: white; border-radius: 5px; margin-bottom: 10px;">
-  Rozpocznij grę
-</button>
+<% if current_user %>
+  <p><strong>Saldo:</strong> 💰 <%= current_user.wallet&.balance || 0 %> żetonów</p>
 
-<div id="blackjack-output" style="color: #ffc107; font-size: 1.2em; margin-top: 15px;"></div>
+  <% if @player_cards.blank? %>
+    <%= form_with url: blackjack_deal_path, method: :post, local: true do %>
+      <label>Zakład:</label><br>
+      <%= number_field_tag :bet, 10, min: 1 %><br><br>
+      <%= submit_tag "Rozdaj karty", class: "spin-button" %>
+    <% end %>
+  <% else %>
+    <p><strong>Twoje karty:</strong> <%= @player_cards.join(', ') %> (suma: <%= @player_cards.sum %>)</p>
+    <p><strong>Karty krupiera:</strong> <%= @dealer_cards.join(', ') %> (suma: <%= @dealer_cards.sum %>)</p>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const button = document.getElementById("blackjack-button");
-    const output = document.getElementById("blackjack-output");
+    <% unless @result %>
+      <%= button_to "Dobierz kartę", blackjack_hit_path, method: :post, class: "spin-button" %>
+      <%= button_to "Zatrzymaj się", blackjack_stand_path, method: :post, class: "spin-button" %>
+    <% end %>
 
-    button.addEventListener("click", () => {
-      output.innerHTML = "<em>Tasuję karty...</em>";
-      output.style.color = "#17a2b8";
+    <% if @result %>
+      <p class="result"><%= @result %></p>
+      <%= button_to "Zagraj ponownie", blackjack_deal_path, method: :post, class: "spin-button" %>
+    <% end %>
+  <% end %>
 
-      setTimeout(() => {
-        const player = Math.floor(Math.random() * 6) + 16;  // 16–21
-        const dealer = Math.floor(Math.random() * 6) + 16;
+  <% if flash[:notice] %>
+    <p class="result"><%= flash[:notice] %></p>
+  <% end %>
+<% else %>
+  <p>Musisz być zalogowany, aby zagrać w blackjacka.</p>
+<% end %>
 
-        let outcome = "";
-        if (player > 21) {
-          outcome = "Przegrałeś! 🟥";
-        } else if (dealer > 21 || player > dealer) {
-          outcome = "Wygrałeś! 🟩";
-        } else if (player === dealer) {
-          outcome = "Remis. 🤝";
-        } else {
-          outcome = "Przegrałeś! 🟥";
-        }
+<style>
+  .spin-button {
+    padding: 10px 30px;
+    font-size: 1.1em;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
 
-        output.style.color = "#ffc107";
-        output.innerHTML = `
-          <strong>Twoje punkty:</strong> ${player}<br>
-          <strong>Punkty krupiera:</strong> ${dealer}<br><br>
-          <strong>Wynik:</strong> ${outcome}
-        `;
-      }, 1000);
-    });
-  });
-</script>
+  .spin-button:hover {
+    background-color: #1976D2;
+  }
+
+  .result {
+    margin-top: 20px;
+    font-size: 1.4em;
+    color: gold;
+  }
+</style>

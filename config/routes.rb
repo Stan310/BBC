@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root 'public#home'
   get 'roulette', to: 'games#roulette'
-  get 'blackjack', to: 'games#blackjack'
+  get 'blackjack', to: 'games#blackjack', as: :blackjack
+  post 'blackjack/deal', to: 'games#blackjack_deal', as: :blackjack_deal
+  post 'blackjack/hit', to: 'games#blackjack_hit', as: :blackjack_hit
+  post 'blackjack/stand', to: 'games#blackjack_stand', as: :blackjack_stand
   match 'slots', to: 'games#slots', via: [:get, :post]
   get 'account', to: 'users#account'
   get "gracze/nowy", to: "gracze#nowy"
