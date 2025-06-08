@@ -23,4 +23,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  get  "roulette",        to: "games#roulette"
+  post "roulette/spin",   to: "games#spin_roulette", as: :spin_roulette
 end

@@ -1,0 +1,11 @@
+<turbo-stream target="roulette-frame" action="update">
+  <template>
+    <p class="result"><%= @result %></p>
+  </template>
+</turbo-stream>
+
+<turbo-stream target="user-balance" action="update">
+  <template>
+    <p>💰 Saldo: <%= current_user.wallet&.balance || 0 %> żetonów</p>
+  </template>
+</turbo-stream>

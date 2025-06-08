@@ -1,3 +1,44 @@
-<h2 style="color: white;">Zakręć kołem ruletki 🎲</h2>
-<p style="color: #ccc;">Postaw na liczbę, kolor lub parzystość i zobacz, czy masz szczęście!</p>
-<button style="padding: 10px 20px; background-color: #dc3545; border: none; color: white; border-radius: 5px;">Zakręć kołem</button>
+<h1>🎲 Ruletka</h1>
+
+<%= form_with url: spin_roulette_path, method: :post, local: true do |f| %>
+  <p>
+    <label>Wybierz kolor lub numer (0–36):</label><br>
+    <%= text_field_tag :choice, nil, placeholder: "np. czerwony, czarny, 7" %>
+  </p>
+  <p>
+    <label>Zakład:</label><br>
+    <%= number_field_tag :bet, 10, min: 1 %>
+  </p>
+  <%= f.submit "Zakręć!", class: "spin-button" %>
+<% end %>
+
+<turbo-frame id="roulette-frame">
+  <% if @result %>
+    <p class="result"><%= @result %></p>
+  <% end %>
+<turbo-frame>
+<style>
+  h1 {
+    color: gold;
+    margin-top: 1em;
+  }
+
+  .spin-button {
+    padding: 10px 30px;
+    font-size: 1.2em;
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .spin-button:hover {
+    background-color: darkred;
+  }
+
+  .result {
+    margin-top: 20px;
+    font-size: 1.4em;
+  }
+</style>

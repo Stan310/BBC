@@ -1,6 +1,46 @@
 class GamesController < ApplicationController
   def roulette
   end
+  def spin_roulette
+    chosen = params[:choice]
+    bet = params[:bet].to_i.clamp(1, 1000000)
+
+    number = rand(37)
+    color = number == 0 ? "zielony" : number.even? ? "czarny" : "czerwony"
+
+    win = 0
+    result = ""
+
+    if current_user&.wallet
+      current_user.wallet.decrement!(:balance, bet)
+
+      if chosen == color
+        win = bet * 2
+        current_user.wallet.increment!(:balance, win)
+        result = "✅ Trafiłeś kolor #{color}! Wygrywasz #{win} żetonów!"
+      elsif chosen.to_i.to_s == chosen && chosen.to_i == number
+        win = bet * 36
+        current_user.wallet.increment!(:balance, win)
+        result = "🎯 Trafiłeś numer #{number}! Wygrywasz #{win} żetonów!"
+      else
+        result = "❌ Wypadło #{number} (#{color}). Niestety, przegrywasz."
+      end
+    else
+      result = "Brak środków lub niezalogowany."
+    end
+    logger.info "🎲 spin_roulette start"
+    logger.info "🎲 Wybrano: #{chosen}, Bet: #{bet}"
+    logger.info "🎯 Wypadło: #{number} (#{color})"
+    @result = result
+    @number = number
+    @color = color
+    respond_to do |format|
+      format.html { render :roulette }
+      format.turbo_stream
+    end
+    puts "🔁 Parametry ruletki: #{params.inspect}"
+    puts "➡️  Wynik: #{@result}"
+  end
 
   def blackjack
   end
