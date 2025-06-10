@@ -4,6 +4,9 @@
 <p><strong>Email:</strong> <%= current_user.email %></p>
 <p><strong>Nazwa użytkownika:</strong> <%= current_user.username %></p>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+
 <% if current_user.avatar.attached? %>
   <p><strong>Avatar:</strong><br><%= image_tag current_user.avatar, style: "width:100px;height:100px;border-radius:50%;" %></p>
 <% else %>
@@ -11,3 +14,101 @@
 <% end %>
 
 <p><strong>Saldo:</strong> <%= current_user.wallet&.balance || 0 %> żetonów</p>
+
+<h3>📊 Historia salda</h3>
+<div style="position: relative; height: 300px; width: 100%; max-width: 700px; margin: 40px auto 60px; background: #1c1c1c;">
+  <canvas id="balanceChart" width="700" height="300"></canvas>
+</div>
+
+<script>
+  document.addEventListener("turbo:load", function() {
+    const ctx = document.getElementById('balanceChart');
+    if (!ctx) return;
+
+    // 1. Zniszcz poprzednią instancję wykresu
+    if (window.balanceChartInstance) {
+      window.balanceChartInstance.destroy();
+    }
+
+    // 2. ZDEFINIUJ ZMIENNE PRZED UŻYCIEM
+    const labels = <%= raw @balance_history.map { |h| h.created_at.strftime('%d %b %H:%M') }.to_json %>;
+    const dataPoints = <%= raw @balance_history.inject([1000]) { |arr, h| arr << arr.last + h.amount }.drop(1).to_json %>;
+
+    // 3. Dopiero teraz użyj zmiennych
+    window.balanceChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels, // Teraz zmienna jest dostępna
+        datasets: [{
+          label: "Saldo w czasie",
+          data: dataPoints,
+          borderColor: "gold",
+          backgroundColor: "rgba(255, 215, 0, 0.1)",
+          fill: true,
+          tension: 0.3,
+          pointHoverRadius: 6, // większy rozmiar przy najechaniu
+          pointHitRadius: 10   // większy obszar klikalności
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        
+        // 4. KLUCZOWE: Wyłącz animacje i popraw interakcje
+        animations: {
+          tension: {
+            duration: 1000,
+            easing: 'linear'
+          },
+          hover: {
+            duration: 0 // całkowicie wyłącz animacje hover
+          }
+        },
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        
+        // 5. Poprawki tooltipów
+        plugins: {
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            titleColor: '#ffd700',
+            bodyColor: 'white',
+            displayColors: false,
+            padding: 12,
+            callbacks: {
+              label: function(context) {
+                return `Saldo: ${context.parsed.y} żetonów`;
+              }
+            }
+          },
+          legend: {
+            labels: {
+              color: 'gold',
+              font: { size: 14 }
+            }
+          }
+        },
+        
+        // 6. Skale
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { 
+              color: 'white',
+              callback: function(value) {
+                return value + ' ż';
+              }
+            },
+            grid: { color: '#444' }
+          },
+          x: {
+            ticks: { color: 'white' },
+            grid: { color: '#444' }
+          }
+        }
+      }
+    });
+  });
+</script>

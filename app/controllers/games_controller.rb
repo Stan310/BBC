@@ -13,14 +13,17 @@ class GamesController < ApplicationController
 
     if current_user&.wallet
       current_user.wallet.decrement!(:balance, bet)
+      BalanceHistory.create(user: current_user, amount: -bet, reason: "Ruletka bet")
 
       if chosen == color
         win = bet * 2
         current_user.wallet.increment!(:balance, win)
+        BalanceHistory.create(user: current_user, amount: win, reason: "Ruletka wygrana")
         result = "✅ Trafiłeś kolor #{color}! Wygrywasz #{win} żetonów!"
       elsif chosen.to_i.to_s == chosen && chosen.to_i == number
         win = bet * 36
         current_user.wallet.increment!(:balance, win)
+        BalanceHistory.create(user: current_user, amount: win, reason: "Ruletka wygrana")
         result = "🎯 Trafiłeś numer #{number}! Wygrywasz #{win} żetonów!"
       else
         result = "❌ Wypadło #{number} (#{color}). Niestety, przegrywasz."
@@ -61,6 +64,7 @@ class GamesController < ApplicationController
 
   # Odejmij saldo
     current_user.wallet.decrement!(:balance, bet)
+    BalanceHistory.create(user: current_user, amount: -bet, reason: "BlackJack start")
 
   # Zapisz zakład do sesji
     session[:bet] = bet
@@ -144,10 +148,13 @@ class GamesController < ApplicationController
     case max_count
     when 3
       current_user.wallet.increment!(:balance, reward * 3)
+      BalanceHistory.create(user: current_user, amount: reward * 3, reason: "Slot wygrana")
     when 2
       current_user.wallet.increment!(:balance, reward)
+      BalanceHistory.create(user: current_user, amount: reward, reason: "Slot wygrana")
     else
       current_user.wallet.decrement!(:balance, 10)  # koszt gry
+      BalanceHistory.create(user: current_user, amount: -10, reason: "Slot przegrana")
     end
   end
   puts "🎰 Wylosowano symbole: #{@symbols.inspect}"

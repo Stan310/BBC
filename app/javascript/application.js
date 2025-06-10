@@ -4,3 +4,5 @@ import "controllers"
 //import "@rails/ujs"
 import "user_menu"
 //Rails.start()
+//import Chart from 'chart.js/auto'
+//window.Chart = Chart

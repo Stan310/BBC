@@ -103,3 +103,11 @@ footer {
   color: gold;
   text-decoration: underline;
 }
+
+
+canvas#balanceChart {
+  margin-top: 20px;
+  background-color: #1c1c1c;
+  border-radius: 8px;
+  padding: 10px;
+}

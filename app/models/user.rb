@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_one :wallet
   after_create :initialize_wallet
   has_one_attached :avatar
+  has_many :balance_histories
 
   private
 

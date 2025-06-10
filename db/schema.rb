@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_04_210425) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_10_132246) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -65,6 +65,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_210425) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "balance_histories", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "amount"
+    t.string "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_balance_histories_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "username"
@@ -87,5 +96,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_210425) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "balance_histories", "users"
   add_foreign_key "wallets", "users"
 end
